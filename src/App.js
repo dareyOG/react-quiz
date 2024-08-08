@@ -24,7 +24,9 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions = questions.length;
 
   useEffect(function () {
     async function getReactQuiz() {
@@ -41,7 +43,7 @@ export default function App() {
   return (
     <div className="app">
       <Header />
-      <Main />
+      <Main questions={questions} status={status} numQuestions={numQuestions} />
     </div>
   );
 }

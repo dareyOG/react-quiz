@@ -1,16 +1,13 @@
-// function Main({ children }) {
-//   return <main className="main">{children}</main>;
-// }
+import Loader from './Loader';
+import Error from './Error';
+import StartScreen from './StartScreen';
 
-// export default Main;
-
-function Main() {
+export default function Main({ questions, status, numQuestions }) {
   return (
     <main className="main">
-      <p>1/15</p>
-      <p>Question?</p>
+      {status === 'loading' && <Loader />}
+      {status === 'error' && <Error />}
+      {status === 'ready' && <StartScreen numQuestions={numQuestions} />}
     </main>
   );
 }
-
-export default Main;
