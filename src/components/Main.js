@@ -3,7 +3,13 @@ import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
 
-export default function Main({ status, numQuestions, dispatch, question }) {
+export default function Main({
+  status,
+  numQuestions,
+  dispatch,
+  question,
+  answer,
+}) {
   return (
     <main className="main">
       {status === 'loading' && <Loader />}
@@ -11,7 +17,9 @@ export default function Main({ status, numQuestions, dispatch, question }) {
       {status === 'ready' && (
         <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
       )}
-      {status === 'active' && <Question question={question} />}
+      {status === 'active' && (
+        <Question question={question} dispatch={dispatch} answer={answer} />
+      )}
     </main>
   );
 }
