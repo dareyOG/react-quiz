@@ -1,5 +1,5 @@
-function Options({ question, dispatch, answer }) {
-  const isAnswered = answer !== null;
+function Options({ question, dispatch, answer, isAnswered }) {
+  //   const isAnswered = answer !== null;
   return (
     <div className="options">
       {question.options.map((option, index) => (
