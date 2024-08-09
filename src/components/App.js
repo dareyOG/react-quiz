@@ -49,10 +49,16 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, currentQuestionIndex, answer }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, currentQuestionIndex, answer, points },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
+  const maxPossiblePoints = questions.reduce(
+    (acc, currQuestion) => acc + currQuestion.points,
+    0
+  );
 
   useEffect(function () {
     async function getReactQuiz() {
@@ -76,6 +82,9 @@ export default function App() {
         dispatch={dispatch}
         question={questions.at(currentQuestionIndex)}
         answer={answer}
+        currentQuestionIndex={currentQuestionIndex}
+        points={points}
+        maxPossiblePoints={maxPossiblePoints}
       />
     </div>
   );

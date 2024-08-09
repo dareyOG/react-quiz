@@ -3,6 +3,7 @@ import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
 import NextQuestion from './NextQuestion';
+import Progress from './Progress';
 
 export default function Main({
   status,
@@ -10,6 +11,9 @@ export default function Main({
   dispatch,
   question,
   answer,
+  currentQuestionIndex,
+  points,
+  maxPossiblePoints,
 }) {
   const isAnswered = answer !== null;
   return (
@@ -21,6 +25,13 @@ export default function Main({
       )}
       {status === 'active' && (
         <>
+          <Progress
+            currentQuestionIndex={currentQuestionIndex}
+            numQuestions={numQuestions}
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            isAnswered={isAnswered}
+          />
           <Question
             question={question}
             dispatch={dispatch}
