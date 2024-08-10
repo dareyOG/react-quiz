@@ -4,11 +4,12 @@ import Main from './Main';
 
 const initialState = {
   questions: [],
-  // 'loading', 'error','ready','active','finished'
-  status: 'loading',
+  status: 'loading', // 'loading', 'error','ready','active','finished'
   currentQuestionIndex: 0,
   answer: null,
   points: 0,
+  // errorMessage: '',
+  highScore: 0,
 };
 
 function reducer(state, action) {
@@ -20,6 +21,7 @@ function reducer(state, action) {
       return {
         ...state,
         status: 'error',
+        // errorMessage: action.payload,
       };
 
     case 'start':
@@ -43,6 +45,14 @@ function reducer(state, action) {
         answer: null,
       };
 
+    case 'lastQuestion':
+      return {
+        ...state,
+        status: 'finished',
+        highScore:
+          state.points < state.highScore ? state.highScore : state.points,
+      };
+
     default:
       throw new Error('Unknown action');
   }
@@ -50,7 +60,15 @@ function reducer(state, action) {
 
 export default function App() {
   const [
-    { questions, status, currentQuestionIndex, answer, points },
+    {
+      questions,
+      status,
+      currentQuestionIndex,
+      answer,
+      points,
+      errorMessage,
+      highScore,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -68,6 +86,7 @@ export default function App() {
         dispatch({ type: 'dataReceived', payload: data });
       } catch (err) {
         dispatch({ type: 'dataFailed' });
+        // dispatch({ type: 'dataFailed', payload: err.message });
       }
     }
     getReactQuiz();
@@ -85,6 +104,8 @@ export default function App() {
         currentQuestionIndex={currentQuestionIndex}
         points={points}
         maxPossiblePoints={maxPossiblePoints}
+        // errorMessage={errorMessage}
+        highScore={highScore}
       />
     </div>
   );

@@ -1,12 +1,19 @@
-function NextQuestion({ dispatch }) {
+function NextButton({ dispatch, currentQuestionIndex, numQuestions }) {
   return (
     <button
       className="btn btn-ui"
-      onClick={() => dispatch({ type: 'nextQuestion' })}
+      onClick={() =>
+        dispatch({
+          type:
+            currentQuestionIndex < numQuestions - 1
+              ? 'nextQuestion'
+              : 'lastQuestion',
+        })
+      }
     >
-      Next
+      {currentQuestionIndex < numQuestions - 1 ? 'Next' : 'Finish'}
     </button>
   );
 }
 
-export default NextQuestion;
+export default NextButton;

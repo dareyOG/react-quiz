@@ -2,8 +2,9 @@ import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
-import NextQuestion from './NextQuestion';
+import NextButton from './NextQuestion';
 import Progress from './Progress';
+import FinishScreen from './FinishScreen';
 
 export default function Main({
   status,
@@ -14,12 +15,15 @@ export default function Main({
   currentQuestionIndex,
   points,
   maxPossiblePoints,
+  // errorMessage,
+  highScore,
 }) {
   const isAnswered = answer !== null;
   return (
     <main className="main">
       {status === 'loading' && <Loader />}
       {status === 'error' && <Error />}
+      {/* {status === 'error' && <Error errorMessage={errorMessage} />} */}
       {status === 'ready' && (
         <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
       )}
@@ -38,8 +42,21 @@ export default function Main({
             answer={answer}
             isAnswered={isAnswered}
           />
-          {isAnswered && <NextQuestion dispatch={dispatch} />}
+          {isAnswered && (
+            <NextButton
+              dispatch={dispatch}
+              currentQuestionIndex={currentQuestionIndex}
+              numQuestions={numQuestions}
+            />
+          )}
         </>
+      )}
+      {status === 'finished' && (
+        <FinishScreen
+          points={points}
+          maxPossiblePoints={maxPossiblePoints}
+          highScore={highScore}
+        />
       )}
     </main>
   );
