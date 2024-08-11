@@ -5,6 +5,7 @@ import Question from './Question';
 import NextButton from './NextQuestion';
 import Progress from './Progress';
 import FinishScreen from './FinishScreen';
+import Timer from './Timer';
 
 export default function Main({
   status,
@@ -17,6 +18,7 @@ export default function Main({
   maxPossiblePoints,
   // errorMessage,
   highScore,
+  secondsLeft,
 }) {
   const isAnswered = answer !== null;
   return (
@@ -42,13 +44,16 @@ export default function Main({
             answer={answer}
             isAnswered={isAnswered}
           />
-          {isAnswered && (
-            <NextButton
-              dispatch={dispatch}
-              currentQuestionIndex={currentQuestionIndex}
-              numQuestions={numQuestions}
-            />
-          )}
+          <footer>
+            <Timer secondsLeft={secondsLeft} dispatch={dispatch} />
+            {isAnswered && (
+              <NextButton
+                dispatch={dispatch}
+                currentQuestionIndex={currentQuestionIndex}
+                numQuestions={numQuestions}
+              />
+            )}
+          </footer>
         </>
       )}
       {status === 'finished' && (

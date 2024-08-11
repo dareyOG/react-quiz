@@ -10,12 +10,21 @@ const initialState = {
   points: 0,
   // errorMessage: '',
   highScore: 0,
+  secondsLeft: null,
 };
+
+// assuming 30secs per question
+const secs_per_question = 30;
 
 function reducer(state, action) {
   switch (action.type) {
     case 'dataReceived':
-      return { ...state, questions: action.payload, status: 'ready' };
+      return {
+        ...state,
+        questions: action.payload,
+        status: 'ready',
+        secondsLeft: state.questions.length * secs_per_question,
+      };
 
     case 'dataFailed':
       return {
@@ -67,6 +76,14 @@ function reducer(state, action) {
         questions: state.questions,
       };
 
+    // timer
+    case 'timer':
+      return {
+        ...state,
+        secondsLeft: state.secondsLeft - 1,
+        status: state.secondsLeft === 0 ? 'finished' : state.status,
+      };
+
     default:
       throw new Error('Unknown action');
   }
@@ -82,6 +99,7 @@ export default function App() {
       points,
       // errorMessage,
       highScore,
+      secondsLeft,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -120,6 +138,7 @@ export default function App() {
         maxPossiblePoints={maxPossiblePoints}
         // errorMessage={errorMessage}
         highScore={highScore}
+        secondsLeft={secondsLeft}
       />
     </div>
   );
