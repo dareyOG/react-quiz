@@ -56,6 +56,7 @@ export default function Main({
           points={points}
           maxPossiblePoints={maxPossiblePoints}
           highScore={highScore}
+          dispatch={dispatch}
         />
       )}
     </main>
