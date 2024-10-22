@@ -6,64 +6,28 @@ import NextButton from './NextQuestion';
 import Progress from './Progress';
 import FinishScreen from './FinishScreen';
 import Timer from './Timer';
+import { useQuiz } from '../context/QuizContext';
 
-export default function Main({
-  status,
-  numQuestions,
-  dispatch,
-  question,
-  answer,
-  currentQuestionIndex,
-  points,
-  maxPossiblePoints,
-  // errorMessage,
-  highScore,
-  secondsLeft,
-}) {
+export default function Main() {
+  const { status, answer } = useQuiz();
   const isAnswered = answer !== null;
+
   return (
     <main className="main">
       {status === 'loading' && <Loader />}
       {status === 'error' && <Error />}
-      {/* {status === 'error' && <Error errorMessage={errorMessage} />} */}
-      {status === 'ready' && (
-        <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
-      )}
+      {status === 'ready' && <StartScreen />}
       {status === 'active' && (
         <>
-          <Progress
-            currentQuestionIndex={currentQuestionIndex}
-            numQuestions={numQuestions}
-            points={points}
-            maxPossiblePoints={maxPossiblePoints}
-            isAnswered={isAnswered}
-          />
-          <Question
-            question={question}
-            dispatch={dispatch}
-            answer={answer}
-            isAnswered={isAnswered}
-          />
+          <Progress />
+          <Question />
           <footer>
-            <Timer secondsLeft={secondsLeft} dispatch={dispatch} />
-            {isAnswered && (
-              <NextButton
-                dispatch={dispatch}
-                currentQuestionIndex={currentQuestionIndex}
-                numQuestions={numQuestions}
-              />
-            )}
+            <Timer />
+            {isAnswered && <NextButton />}
           </footer>
         </>
       )}
-      {status === 'finished' && (
-        <FinishScreen
-          points={points}
-          maxPossiblePoints={maxPossiblePoints}
-          highScore={highScore}
-          dispatch={dispatch}
-        />
-      )}
+      {status === 'finished' && <FinishScreen />}
     </main>
   );
 }
